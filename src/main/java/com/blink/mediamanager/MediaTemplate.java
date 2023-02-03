@@ -12,8 +12,6 @@ public interface MediaTemplate {
 	public MediaTemplate setPath(String pathStr) ;
 	public String getPath() ;
 	
-
-	
 	default public Media upload(Media media) {
 		try {
 			media.setUrl(getURL(media.getId()));
@@ -62,11 +60,7 @@ public interface MediaTemplate {
 
 	default public Collection<URL> listURLs() {
 		return listIDs().stream().map(id -> {
-			try {
-				return getURL(id);
-			} catch (MediaException e) {
-				return null;
-			}
+			return getURL(id);
 		}).collect(Collectors.toList());
 
 	}
@@ -75,7 +69,7 @@ public interface MediaTemplate {
 
 	public Collection<?> listAllMetadata();
 
-	public URL getURL(String id) throws MediaException;
+	public URL getURL(String id) ;
 
 	public default String getChecksum(Media media) {
 		CRC32 crc32 = new CRC32();

@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import com.blink.mediamanager.AbstractMediaTemplate;
 import com.blink.mediamanager.Media;
+import com.blink.mediamanager.MediaError;
 import com.blink.mediamanager.MediaException;
 
 public class MediaLocal extends AbstractMediaTemplate {
@@ -59,11 +60,11 @@ public class MediaLocal extends AbstractMediaTemplate {
 	}
 
 	@Override
-	public URL getURL(String id) throws MediaException {
+	public URL getURL(String id) {
 		try {
 			return new URL(localProtocol, localHost, getPath(id).toString());
 		} catch (MalformedURLException e) {
-			throw new MediaException(e);
+			throw new MediaError(e);
 		}
 	}
 
