@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.blink</groupId>
 	<artifactId>media</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>MediaManager1.0.0</name>
 	<description>Media manager base clases without external dependencies</description>
 	<properties>
