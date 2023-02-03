@@ -18,9 +18,9 @@ public class ImageResizer {
     public static Integer thumbnailWidth = 100;
     public static final Integer sourceWidth = -1;
     public static final Set<Integer> defaultWidths = Set.of(sourceWidth, thumbnailWidth);
-    public String ID_THUMBNAIL = "thmb";
-    public String TYPE_SEPARATOR = ".";
-    public String ID_PATTERN = "_";
+    public static String ID_THUMBNAIL = "_thmb";
+    public static String TYPE_SEPARATOR = ".";
+    public static String ID_PATTERN = "_";
     
     public ImageResizer(Media mediaSource) throws MediaException {
        this(mediaSource, defaultWidths);
@@ -129,14 +129,14 @@ public class ImageResizer {
     	if(width == thumbnailWidth)
     		sufix = ID_THUMBNAIL;
    		else
-        	sufix = width.toString();
+        	sufix = ID_PATTERN + width.toString();
     	
     	int typeSeparatorPos = id.lastIndexOf(TYPE_SEPARATOR);
     	
     	if(typeSeparatorPos <= 0)
-    		return id + ID_PATTERN + width;
+    		return id + sufix;
     	
-    	return id.substring(0,typeSeparatorPos ) + ID_PATTERN + sufix + id.substring(typeSeparatorPos);
+    	return id.substring(0,typeSeparatorPos ) + sufix + id.substring(typeSeparatorPos);
 
  	}
 
