@@ -21,11 +21,6 @@ public abstract class AbstractMediaTemplate implements MediaTemplate{
 		return uploadResult;
 	}
 	
-	@Override
-	public MediaTemplate setProcessResult(ProcessResult<MediaStatus> uploadResult) {
-		this.uploadResult = uploadResult;
-		return this;
-	}
 	
 	
 	

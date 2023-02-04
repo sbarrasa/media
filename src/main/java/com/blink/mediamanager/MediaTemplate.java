@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
-public interface MediaTemplate extends Processable<MediaStatus> {
+public interface MediaTemplate  {
 	
 	public MediaTemplate setPath(String pathStr) ;
 	public String getPath() ;
@@ -97,7 +97,8 @@ public interface MediaTemplate extends Processable<MediaStatus> {
 		}
 	}
 
-	
+	public ProcessResult<MediaStatus> getProcessResult();
+
 	
 	
 
