@@ -3,16 +3,16 @@ package com.blink.mediamanager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
-import java.util.EnumMap;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
-public interface MediaTemplate {
+public interface MediaTemplate extends Processable<MediaStatus> {
 	
 	public MediaTemplate setPath(String pathStr) ;
 	public String getPath() ;
 	
 	default public Media upload(Media media) {
+		getProcessResult().incToProcess();
 		try {
 			media.setUrl(getURL(media.getId()));
 			String remoteChecksum = getServerChecksum(media.getId());
@@ -32,7 +32,7 @@ public interface MediaTemplate {
 		}catch(Exception e) {
 			media.setStatus(MediaStatus.err(e));
 		}
-		incrementUploadResult(media.getStatus());
+		getProcessResult().incProcessed(media.getStatus());
 		return media;
 
 	}
@@ -97,15 +97,8 @@ public interface MediaTemplate {
 		}
 	}
 
-	public EnumMap<MediaStatus, Integer> getUploadResult();
 	
-	private Integer incrementUploadResult(MediaStatus status) {
-		Integer cnt = getUploadResult().get(status);
-		if(cnt== null)
-			cnt= 0;
-		getUploadResult().put(status, ++cnt);
-		return cnt;
-	}
+	
+	
 
-	
 }

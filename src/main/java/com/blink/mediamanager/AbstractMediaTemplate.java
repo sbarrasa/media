@@ -1,10 +1,9 @@
 package com.blink.mediamanager;
 
-import java.util.EnumMap;
 
 public abstract class AbstractMediaTemplate implements MediaTemplate{
 	private String pathStr;
-	private EnumMap<MediaStatus, Integer> uploadResult = new EnumMap<>(MediaStatus.class);
+	private ProcessResult<MediaStatus> uploadResult = new ProcessResult<>();
 	
 	@Override
 	public MediaTemplate setPath(String pathStr) {
@@ -18,11 +17,15 @@ public abstract class AbstractMediaTemplate implements MediaTemplate{
 	}
 
 	@Override
-	public EnumMap<MediaStatus, Integer> getUploadResult(){
+	public ProcessResult<MediaStatus> getProcessResult(){
 		return uploadResult;
 	}
 	
-
+	@Override
+	public MediaTemplate setProcessResult(ProcessResult<MediaStatus> uploadResult) {
+		this.uploadResult = uploadResult;
+		return this;
+	}
 	
 	
 	
