@@ -68,9 +68,9 @@ public class ImageResizer {
         this.resizedMap = new HashMap<>();
 
 		BufferedImage image = toImage(mediaSource.getStream());
-        widths.forEach(width -> { 
-            Media mediaResized = new Media();
-            mediaResized.setId(buildId(mediaSource.getId(), width));
+		widths.forEach(width -> { 
+            Media mediaResized = new Media(); 
+           	mediaResized.setId(buildId(mediaSource.getId(), width));
             mediaResized.setContentType(mediaSource.getContentType());
             try {
 				mediaResized.setStream(toStream(resize(image, width)));
@@ -128,8 +128,11 @@ public class ImageResizer {
 	   }
 	}
 
-    private static String buildId(String id, Integer width) {
+    private String buildId(String id, Integer width) {
     	if(width == sourceWidth)
+    		return id;
+    	
+    	if(width == widths.iterator().next())
     		return id;
     	
     	String sufix ;
