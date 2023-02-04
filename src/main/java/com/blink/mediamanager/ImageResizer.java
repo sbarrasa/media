@@ -67,6 +67,9 @@ public class ImageResizer {
     }
 
 	private void build(String id, Integer width) {
+		if(width == null)
+			return;
+		
 		Media mediaResized = new Media(); 
        	mediaResized.setId(id);
         mediaResized.setContentType(mediaSource.getContentType());
@@ -81,7 +84,7 @@ public class ImageResizer {
 	}
 
     public ImageResizer buildAll() throws MediaException {
-        this.resizedMap.clear();;
+        this.resizedMap.clear();
 
 		build(mediaSource.getId(), principalWidth);
 		build(buildId(ID_THUMBNAIL), thumbnailWidth);
