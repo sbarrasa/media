@@ -1,12 +1,12 @@
 package com.blink.mediamanager;
 
-import java.util.EnumMap;
+import java.util.Map;
 import java.util.HashMap;
 
 public class ProcessResult <T extends Enum<T>>{
 	private Integer cntTotal = 0;
 	private Integer cntProcessed = 0;
-	private EnumMap<T, Integer> ProcessStatus = new EnumMap<>(new HashMap<T,Integer>());
+	private Map<T, Integer> ProcessStatus = new HashMap<>();
 	
 	public Integer cntToProcess() {
 		return cntTotal() - cntProcessed();
@@ -20,7 +20,7 @@ public class ProcessResult <T extends Enum<T>>{
 		return cntTotal;
 	}
 	
-	public EnumMap<T, Integer> getProcessStatus(){
+	public Map<T, Integer> getProcessStatus(){
 		return ProcessStatus;
 	}
 	
