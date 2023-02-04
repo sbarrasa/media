@@ -6,10 +6,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ImageResizer {
     public Media mediaSource;
@@ -45,13 +48,17 @@ public class ImageResizer {
     }
 
 
-    public Collection<Media> getResizes() throws MediaException {
+    public Collection<Media> getResizes()  {
         return getMap().values();
     }
 
-    public Map<Integer, Media> getMap() throws MediaException {
+    public Map<Integer, Media> getMap() {
         if (resizedMap == null)
-            build();
+			try {
+				build();
+			} catch (MediaException e) {
+				e.printStackTrace();
+			}
 
         return resizedMap;
 
@@ -147,6 +154,8 @@ public class ImageResizer {
 		return null;
 	}
 
-    
+	public List<URL> getURLs(){
+		return getResizes().stream().map(m -> m.getUrl()).collect(Collectors.toList());
+	}
     
 }
