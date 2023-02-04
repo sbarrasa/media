@@ -16,24 +16,25 @@ import java.util.stream.Collectors;
 
 public class ImageResizer {
     public Media mediaSource;
-    public Map<Integer, Media> resizedMap;
+    public Map<Integer, Media> resizedMap = new HashMap<>();
     public Set<Integer> widths;
-    public static Integer thumbnailWidth = 100;
+	private Integer principalWidth = sourceWidth;
+	private Integer thumbnailWidth = 100;
+	private BufferedImage image;
     public static final Integer sourceWidth = -1;
-    public static final Set<Integer> defaultWidths = Set.of(sourceWidth, thumbnailWidth);
     public static String ID_THUMBNAIL = "_thmb";
     public static String TYPE_SEPARATOR = ".";
     public static String ID_PATTERN = "_";
     
     public ImageResizer(Media mediaSource) throws MediaException {
-       this(mediaSource, defaultWidths);
+       this(mediaSource, Set.of());
     }
 
-    public ImageResizer(Media mediaSource, Set<Integer> widths) throws MediaException {
+    public ImageResizer(Media mediaSource, Set<Integer> alternativeWidths) throws MediaException {
     	this.mediaSource = mediaSource;
-        
-        setWidths(widths);
-        build();
+        image = toImage(this.mediaSource.getStream());
+        setWidths(alternativeWidths);
+        buildAll();
 
     }
 
@@ -43,7 +44,8 @@ public class ImageResizer {
 
     public ImageResizer setWidths(Set<Integer> widths) {
         this.widths = widths;
-        this.resizedMap = null;
+        this.resizedMap.clear();
+       
         return this;
     }
 
@@ -55,7 +57,7 @@ public class ImageResizer {
     public Map<Integer, Media> getMap() {
         if (resizedMap == null)
 			try {
-				build();
+				buildAll();
 			} catch (MediaException e) {
 				e.printStackTrace();
 			}
@@ -64,27 +66,35 @@ public class ImageResizer {
 
     }
 
-    public ImageResizer build() throws MediaException {
-        this.resizedMap = new HashMap<>();
+	private void build(String id, Integer width) {
+		Media mediaResized = new Media(); 
+       	mediaResized.setId(id);
+        mediaResized.setContentType(mediaSource.getContentType());
+        try {
+			mediaResized.setStream(toStream(resize(image, width)));
+         	
+        } catch (MediaException e) {
+        	mediaResized.setStatus(MediaStatus.err(e));
+		}
+     	resizedMap.put(width, mediaResized);
+   		
+	}
 
-		BufferedImage image = toImage(mediaSource.getStream());
+    public ImageResizer buildAll() throws MediaException {
+        this.resizedMap.clear();;
+
+		build(mediaSource.getId(), principalWidth);
+		build(buildId(ID_THUMBNAIL), thumbnailWidth);
+		
+		if(widths == null)
+			return this;
+		
 		widths.forEach(width -> { 
-            Media mediaResized = new Media(); 
-           	mediaResized.setId(buildId(mediaSource.getId(), width));
-            mediaResized.setContentType(mediaSource.getContentType());
-            try {
-				mediaResized.setStream(toStream(resize(image, width)));
-	         	
-            } catch (MediaException e) {
-            	mediaResized.setStatus(MediaStatus.err(e));
-			}
-         	resizedMap.put(width, mediaResized);
-	   		   
+			build(buildId(ID_PATTERN+width), width);		   
         });
        
         return this;
     }
-
 
 
 	private static BufferedImage resize(BufferedImage image, Integer width) {
@@ -128,18 +138,8 @@ public class ImageResizer {
 	   }
 	}
 
-    private String buildId(String id, Integer width) {
-    	if(width == sourceWidth)
-    		return id;
-    	
-    	if(width == widths.iterator().next())
-    		return id;
-    	
-    	String sufix ;
-    	if(width == thumbnailWidth)
-    		sufix = ID_THUMBNAIL;
-   		else
-        	sufix = ID_PATTERN + width.toString();
+    private String buildId(String sufix) {
+        String id = mediaSource.getId();
     	
     	int typeSeparatorPos = id.lastIndexOf(TYPE_SEPARATOR);
     	
@@ -159,6 +159,24 @@ public class ImageResizer {
 
 	public List<URL> getURLs(){
 		return getResizes().stream().map(m -> m.getUrl()).collect(Collectors.toList());
+	}
+
+	public Integer getPrincipalWidth() {
+		return principalWidth;
+	}
+
+	public ImageResizer setPrincipalWidth(Integer principalWidth) {
+		this.principalWidth = principalWidth;
+		return this;
+	}
+
+	public Integer getThumbnailWidth() {
+		return thumbnailWidth;
+	}
+
+	public ImageResizer setThumbnailWidth(Integer thumbnailWidth) {
+		this.thumbnailWidth = thumbnailWidth;
+		return this;
 	}
     
 }
