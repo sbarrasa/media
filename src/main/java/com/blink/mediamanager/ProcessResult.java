@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class ProcessResult <T extends Enum<T>>{
 	private Integer cntTotal = 0;
 	private Integer cntProcessed = 0;
-	private EnumMap<T, Integer> ProcessStatus = new EnumMap<>(new HashMap<>());
+	private EnumMap<T, Integer> ProcessStatus = new EnumMap<>(new HashMap<T,Integer>());
 	
 	public Integer cntToProcess() {
 		return cntTotal() - cntProcessed();
