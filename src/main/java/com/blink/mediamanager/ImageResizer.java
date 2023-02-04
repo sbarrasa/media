@@ -98,7 +98,7 @@ public class ImageResizer {
     	ByteArrayOutputStream stream = new ByteArrayOutputStream();
         
         try {
-			ImageIO.write(resizedImage, getType(mediaSource.getId()) , stream);
+			ImageIO.write(resizedImage, getType(mediaSource.getContentType()) , stream);
 		} catch (IOException e) {
 			throw new MediaException(e);
 		}
@@ -121,7 +121,7 @@ public class ImageResizer {
 	   }
 	}
 
-    private String buildId(String id, Integer width) {
+    private static String buildId(String id, Integer width) {
     	if(width == sourceWidth)
     		return id;
     	
@@ -140,8 +140,8 @@ public class ImageResizer {
 
  	}
 
-	private String getType(String id) {
-		int typeSeparatorPos = id.lastIndexOf(TYPE_SEPARATOR);
+	private static String getType(String id) {
+		int typeSeparatorPos = id.lastIndexOf("/");
 		if (typeSeparatorPos > 0) 
 		    return id.substring(typeSeparatorPos +1);
 		return null;
