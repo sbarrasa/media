@@ -69,12 +69,13 @@ public class MediaS3 extends AbstractMediaTemplate {
     	S3Object s3Object ;
     	try {
             s3Object = getAmazonS3().getObject(bucket, id);
-            
+            Media media = new Media(id, s3Object.getObjectContent());
+            media.setContentType(s3Object.getObjectMetadata().getContentType());
+            return media;
         } catch (SdkClientException e) {
             throw new MediaException(e);
         }
-        return new Media(id, s3Object.getObjectContent());
-
+  
     }
 
     @Override

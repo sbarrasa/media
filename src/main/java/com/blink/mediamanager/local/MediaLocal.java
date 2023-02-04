@@ -17,9 +17,10 @@ import com.blink.mediamanager.MediaError;
 import com.blink.mediamanager.MediaException;
 
 public class MediaLocal extends AbstractMediaTemplate {
+	private static final String CONTENT_TYPE_DEFAULT = "image/png";
 	private String localProtocol = "file";
 	private String localHost = "localhost";
-
+	
 	private Path getPath(String id) {
 		return Path.of(super.getPath(), id);
 	}
@@ -89,7 +90,10 @@ public class MediaLocal extends AbstractMediaTemplate {
 
 	@Override
 	public Media get(String id) throws MediaException {
-		return new Media(getPath(id));
+		Media media = new Media(getPath(id));
+		if(media.getContentType()== null)
+			media.setContentType(CONTENT_TYPE_DEFAULT);
+		return media;
 	}
 
 }
