@@ -53,7 +53,7 @@ public class MediaRestClient extends AbstractMediaTemplate {
 
 	@Override
 	public String getServerChecksum(String id) {
-		return rest.getForObject(MediaEndpoints.REMOTE_CHECKSUM, String.class, id);
+		return rest.getForObject(MediaEndpoints.CHECKSUM, String.class, id);
 	}
 
 	@Override

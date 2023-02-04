@@ -7,7 +7,7 @@ public class MediaEndpoints {
 	public static final String UPLOAD = "/upload";
 	public static final String GET = "/";
 	public static final String DELETE = "/delete";
-	public static final String REMOTE_URL = "/remote_url";
-	public static final String REMOTE_CHECKSUM = "/remote_checksum";
+	public static final String URL = "/url";
+	public static final String CHECKSUM = "/checksum";
 
 }
