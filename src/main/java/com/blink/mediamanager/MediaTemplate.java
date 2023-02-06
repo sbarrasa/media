@@ -12,7 +12,6 @@ public interface MediaTemplate  {
 	public String getPath() ;
 	
 	default public Media upload(Media media) {
-		getProcessResult().incToProcess();
 		try {
 			media.setUrl(getURL(media.getId()));
 			String remoteChecksum = getServerChecksum(media.getId());
