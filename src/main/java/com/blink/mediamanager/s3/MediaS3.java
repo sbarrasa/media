@@ -10,28 +10,36 @@ import com.amazonaws.services.s3.model.*;
 import com.blink.mediamanager.Media;
 import com.blink.mediamanager.MediaError;
 import com.blink.mediamanager.MediaException;
+import com.blink.mediamanager.MediaTemplate;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.blink.mediamanager.AbstractMediaTemplate;
 
-public class MediaS3 extends AbstractMediaTemplate {
+public class MediaS3 implements MediaTemplate {
 
 	
     private String bucket;
     private String accessKey;
     private String secretKey; 
     private String region; 
+    private String path;
 	
     private AmazonS3 amazonS3;
 
 
 	@Override
-    public MediaS3 setPath(String pathStr) {
-		return (MediaS3) super.setPath(pathStr);
-	}
+    public MediaS3 setPath(String path) {
+		this.path = path;
+		return this;
+	}	
+	
+	@Override
+	public String getPath() {
+		return path;
+	}	
+	
 
 	@Override
     public List<String> listIDs() {
@@ -79,8 +87,8 @@ public class MediaS3 extends AbstractMediaTemplate {
     }
 
     @Override
-    public void delete(String id) {
-    	getAmazonS3().deleteObject(new DeleteObjectRequest(bucket, id));
+    public void deleteImpl(Media media) {
+    	getAmazonS3().deleteObject(new DeleteObjectRequest(bucket, media.getId()));
     }
 
 

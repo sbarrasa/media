@@ -7,6 +7,7 @@ public enum MediaStatus {
 	unchanged,
 	added,
 	updated,
+	deleted,
 	err;
 	
 	private Exception exception;

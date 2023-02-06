@@ -27,6 +27,10 @@ public class Media {
     public Media() {
     }
 
+    public Media(String id) {
+    	setId(id);
+    }
+
     public Media(Path path) throws MediaException {
     	setId(path.getFileName().toString());
     	setStream(path);

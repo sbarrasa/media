@@ -8,12 +8,12 @@ import java.util.List;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import com.blink.mediamanager.AbstractMediaTemplate;
+import com.blink.mediamanager.MediaTemplate;
 import com.blink.mediamanager.Media;
 import com.blink.mediamanager.MediaError;
 import com.blink.mediamanager.MediaException;
 
-public class MediaRestClient extends AbstractMediaTemplate {
+public class MediaRestClient implements MediaTemplate {
 	private RestTemplate rest;
 
 
@@ -27,8 +27,8 @@ public class MediaRestClient extends AbstractMediaTemplate {
 	}
 
 	@Override
-	public void delete(String id) {
-		rest.delete(MediaEndpoints.DELETE, id);
+	public void deleteImpl(Media media) {
+		rest.delete(MediaEndpoints.DELETE, media.getId());
 	}
 
 	@Override
@@ -69,6 +69,16 @@ public class MediaRestClient extends AbstractMediaTemplate {
 		
 		return new Media(id, stream);
 		
+	}
+
+	@Override
+	public MediaTemplate setPath(String pathStr) {
+		return null;
+	}
+
+	@Override
+	public String getPath() {
+		return null;
 	}
 
 }

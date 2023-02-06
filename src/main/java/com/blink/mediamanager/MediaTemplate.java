@@ -2,6 +2,7 @@ package com.blink.mediamanager;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
@@ -31,7 +32,6 @@ public interface MediaTemplate  {
 		}catch(Exception e) {
 			media.setStatus(MediaStatus.err(e));
 		}
-		getProcessResult().incProcessed(media.getStatus());
 		return media;
 
 	}
@@ -41,20 +41,33 @@ public interface MediaTemplate  {
 		return medias;
 	}
 
-	default public void delete(Media media) throws MediaException {
-		delete(media.getId());
+	public void deleteImpl(Media media) throws MediaException;
+	
+	default public Media delete(Media media) 
+	{
+		try{
+			deleteImpl(media);
+			media.setStatus(MediaStatus.deleted);
+		}catch(MediaException e){
+			media.setStatus(MediaStatus.err(e));
+		}
+		
+		return media;
 	}
 
-	public void delete(String id) throws MediaException ;
+	default public Media delete(String id) {
+		Media media = new Media(id);
+		return delete(media);
+	}
 
-
-	default public void delete(Collection<String> ids) {
+		
+	default public Collection<Media> delete(Collection<String> ids) {
+		Collection<Media> medias = new ArrayList<>();
 		ids.forEach( id -> {
-			try {
-				delete(id);
-			} catch (MediaException e) {
-			}
+				medias.add(delete(id));
 		});
+		
+		return medias;
 	}
 
 	default public Collection<URL> listURLs() {
@@ -96,8 +109,7 @@ public interface MediaTemplate  {
 		}
 	}
 
-	public ProcessResult<MediaStatus> getProcessResult();
-
+	
 	
 	
 

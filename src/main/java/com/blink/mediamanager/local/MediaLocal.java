@@ -11,20 +11,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.blink.mediamanager.AbstractMediaTemplate;
+import com.blink.mediamanager.MediaTemplate;
 import com.blink.mediamanager.Media;
 import com.blink.mediamanager.MediaError;
 import com.blink.mediamanager.MediaException;
 
-public class MediaLocal extends AbstractMediaTemplate {
+public class MediaLocal implements MediaTemplate {
 	private static final String CONTENT_TYPE_DEFAULT = "image/png";
 	private String localProtocol = "file";
 	private String localHost = "localhost";
+	private String pathStr;
 	
-	private Path getPath(String id) {
-		return Path.of(super.getPath(), id);
-	}
-
+	
 
 	public MediaLocal() {
 		setPath("./");
@@ -33,9 +31,9 @@ public class MediaLocal extends AbstractMediaTemplate {
 	
 
 	@Override
-	public void delete(String id) throws MediaException {
+	public void deleteImpl(Media media) throws MediaException {
 		try {
-			Files.delete(getPath(id) );
+			Files.delete(getPath(media.getId()) );
 		} catch (IOException e) {
 			throw new MediaException(e);
 		}
@@ -94,6 +92,23 @@ public class MediaLocal extends AbstractMediaTemplate {
 		if(media.getContentType()== null)
 			media.setContentType(CONTENT_TYPE_DEFAULT);
 		return media;
+	}
+
+
+	@Override
+	public MediaTemplate setPath(String pathStr) {
+		this.pathStr = pathStr;
+		return this;
+	}
+
+
+	@Override
+	public String getPath() {
+		return pathStr;
+	}
+
+	private Path getPath(String id) {
+		return Path.of(pathStr, id);
 	}
 
 }
