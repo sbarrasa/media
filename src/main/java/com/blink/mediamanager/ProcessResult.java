@@ -29,7 +29,7 @@ public class ProcessResult <T extends Enum<T>>{
 		return this;
 	}
 		
-	public Integer incToProcess() {
+	public Integer incTotal() {
 		return ++cntTotal;
 	}
 	
