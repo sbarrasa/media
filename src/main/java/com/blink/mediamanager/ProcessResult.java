@@ -24,6 +24,11 @@ public class ProcessResult <T extends Enum<T>>{
 		return ProcessStatus;
 	}
 	
+	public ProcessResult<T> setTotal(Integer value) {
+		this.cntTotal = value;
+		return this;
+	}
+		
 	public Integer incToProcess() {
 		return ++cntTotal;
 	}
@@ -33,6 +38,7 @@ public class ProcessResult <T extends Enum<T>>{
 		Integer cnt = getProcessStatus().get(key);
 			if(cnt== null)
 				cnt= 0;
+			
 		getProcessStatus().put(key, ++cnt);
 		cntProcessed++;
 		
