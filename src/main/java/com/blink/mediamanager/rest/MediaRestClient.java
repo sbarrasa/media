@@ -52,6 +52,12 @@ public class MediaRestClient implements MediaTemplate {
 	}
 
 	@Override
+	public boolean validateURL(URL url) throws MediaException {
+		return false;
+	}
+
+
+	@Override
 	public String getServerChecksum(String id) {
 		return rest.getForObject(MediaEndpoints.CHECKSUM, String.class, id);
 	}
