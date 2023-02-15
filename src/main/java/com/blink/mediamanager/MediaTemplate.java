@@ -77,6 +77,18 @@ public interface MediaTemplate {
         }).collect(Collectors.toList());
 
     }
+    default public Collection<URL> listValidURLs() {
+        return listIDs().stream().map(id -> {
+            try {
+                return getValidURL(id);
+            } catch (MediaException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).collect(Collectors.toList());
+
+    }
+
 
     public Collection<String> listIDs();
 
