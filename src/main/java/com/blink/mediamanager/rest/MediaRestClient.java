@@ -81,7 +81,8 @@ public class MediaRestClient implements MediaTemplate {
 
         JSONObject mediaJson = new JSONObject(media);
         mediaJson.put("stream", responseStrBuilder.toString());
-        return rest.postForObject(MediaEndpoints.UPLOAD + "_impl", mediaJson, Media.class);
+        rest.postForObject(MediaEndpoints.UPLOAD + "_impl", mediaJson, JSONObject.class);
+        return media;
     }
 
 
