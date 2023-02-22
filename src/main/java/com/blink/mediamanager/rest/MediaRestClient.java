@@ -20,7 +20,6 @@ public class MediaRestClient implements MediaTemplate {
 
 	public MediaRestClient() {
 		rest = new RestTemplate();
-		rest.setUriTemplateHandler(new DefaultUriBuilderFactory(getPath()));
 	}
 
 	public MediaRestClient(RestTemplate rest) {
@@ -81,6 +80,8 @@ public class MediaRestClient implements MediaTemplate {
 	@Override
 	public MediaTemplate setPath(String pathStr) {
 		this.path = pathStr;
+		rest.setUriTemplateHandler(new DefaultUriBuilderFactory(this.path));
+
 		return this;
 	}
 
