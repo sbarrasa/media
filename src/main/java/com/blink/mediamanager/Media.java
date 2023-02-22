@@ -2,6 +2,7 @@ package com.blink.mediamanager;
 
 import org.apache.commons.io.IOUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -47,6 +48,7 @@ public class Media {
         return stream;
     }
 
+    @JsonIgnore
     public Media setStream(Path path) throws MediaException {
     	try {
 			setStream(new FileInputStream(path.toFile()));
