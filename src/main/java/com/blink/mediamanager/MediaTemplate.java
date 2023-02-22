@@ -126,7 +126,7 @@ public interface MediaTemplate {
 
     public static MediaTemplate buildMediaTemplate(String className) {
         try {
-            return (MediaTemplate) Class.forName(className).getDeclaredConstructors()[0].newInstance();
+            return (MediaTemplate) Class.forName(className).getConstructor().newInstance();
         } catch (Exception e) {
             throw new MediaError(e);
         }
