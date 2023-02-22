@@ -15,6 +15,7 @@ import com.blink.mediamanager.MediaException;
 
 public class MediaRestClient implements MediaTemplate {
 	private RestTemplate rest;
+	private String path;
 
 
 	public MediaRestClient() {
@@ -79,12 +80,13 @@ public class MediaRestClient implements MediaTemplate {
 
 	@Override
 	public MediaTemplate setPath(String pathStr) {
-		return null;
+		this.path = pathStr;
+		return this;
 	}
 
 	@Override
 	public String getPath() {
-		return null;
+		return path;
 	}
 
 }
