@@ -6,8 +6,13 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
@@ -67,21 +72,11 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    	HttpEntity<Media> requestEntity = new HttpEntity<>(media, headers);
 
-        BufferedReader streamReader;
-        StringBuilder responseStrBuilder = new StringBuilder();
-        try {
-            streamReader = new BufferedReader(new InputStreamReader(media.getStream(), "UTF-8"));
-            String inputStr;
-            while ((inputStr = streamReader.readLine()) != null) responseStrBuilder.append(inputStr);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        JSONObject mediaJson = new JSONObject(media);
-        mediaJson.put("stream", responseStrBuilder.toString());
-        rest.postForObject(MediaEndpoints.UPLOAD + "_impl", mediaJson, JSONObject.class);
+        rest.postForObject(MediaEndpoints.UPLOAD + "_impl", requestEntity, Media.class);
         return media;
     }
 
