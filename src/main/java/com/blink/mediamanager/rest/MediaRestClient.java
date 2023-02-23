@@ -62,7 +62,7 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public String getServerChecksum(String id) {
-        return rest.getForObject(MediaEndpoints.CHECKSUM + "?id=" + id, String.class);
+        return rest.getForObject(MediaEndpoints.CHECKSUM + "/" + id, String.class);
     }
 
     @Override
