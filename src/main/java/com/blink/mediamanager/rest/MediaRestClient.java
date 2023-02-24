@@ -3,12 +3,13 @@ package com.blink.mediamanager.rest;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -71,12 +72,17 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
-    	
+        MultipartFile file;
+        try {
+            file = new MockMultipartFile(media.getId(), media.getId(), media.getContentType(), media.getStream());
+        } catch (IOException e) {
+            throw new MediaException(e);
+        } 
     	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.parseMediaType(media.getContentType()));
-  
-      	HttpEntity<InputStream> requestEntity = new HttpEntity<>(media.getStream(), headers);
-      
+    	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+    	HttpEntity<Object> requestEntity  = new HttpEntity<>(file, headers);
+        
         return rest.postForObject(MediaEndpoints.UPLOAD, requestEntity, Media.class);
     }
 
