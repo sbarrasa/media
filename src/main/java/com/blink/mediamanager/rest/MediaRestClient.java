@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.mock.web.MockMultipartFile;
@@ -29,7 +28,7 @@ public class MediaRestClient implements MediaTemplate {
 
 
     public MediaRestClient() {
-        rest = new RestTemplate(Arrays.asList(new ResourceHttpMessageConverter()));
+        rest = new RestTemplate();
     }
 
     public MediaRestClient(RestTemplate rest) {
