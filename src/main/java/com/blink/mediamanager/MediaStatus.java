@@ -1,5 +1,6 @@
 package com.blink.mediamanager;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum MediaStatus {
 	empty,
@@ -26,7 +27,7 @@ public enum MediaStatus {
 		return m;
 	}
 
-	
+    @JsonValue
 	public String toString() {
 		String msg = this.name();
 		if(this == err)
