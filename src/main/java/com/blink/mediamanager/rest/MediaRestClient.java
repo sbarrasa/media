@@ -78,9 +78,10 @@ public class MediaRestClient implements MediaTemplate {
             multipartFile = new MockMultipartFile(  media.getId(), media.getId(), media.getContentType(), media.getStream());
         } catch (IOException e) {
             throw new MediaException(e);
-        }
-        
-        HttpEntity<MultipartFile> file = new HttpEntity<>(multipartFile);
+        } 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        HttpEntity<MultipartFile> file = new HttpEntity<>(multipartFile, headers);
         
         return rest.postForObject(MediaEndpoints.UPLOAD, file, Media.class);
     }
