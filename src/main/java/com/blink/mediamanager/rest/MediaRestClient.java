@@ -75,10 +75,7 @@ public class MediaRestClient implements MediaTemplate {
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.parseMediaType(media.getContentType()));
   
-    	MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
-    	form.add("file", media.getStream());
-
-    	HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(form, headers);
+      	HttpEntity<InputStream> requestEntity = new HttpEntity<>(media.getStream(), headers);
       
         return rest.postForObject(MediaEndpoints.UPLOAD, requestEntity, Media.class);
     }
