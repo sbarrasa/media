@@ -26,7 +26,8 @@ public enum MediaStatus {
 		return m;
 	}
 
-	public String getMsg() {
+	
+	public String toString() {
 		String msg = this.name();
 		if(this == err)
 			msg = msg + ": " +getException().getMessage();
