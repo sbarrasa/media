@@ -74,7 +74,7 @@ public class MediaRestClient implements MediaTemplate {
 
         MultipartFile multipartFile;
         try {
-            multipartFile = new MockMultipartFile(media.getId(), null,media.getContentType(), media.getStream());
+            multipartFile = new MockMultipartFile( media.getId(), media.getId(), media.getContentType(), media.getStream());
         } catch (IOException e) {
             throw new MediaException(e);
         }
