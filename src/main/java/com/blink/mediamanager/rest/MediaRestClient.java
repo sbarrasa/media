@@ -10,7 +10,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.blink.mediamanager.MediaTemplate;
@@ -69,12 +71,19 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
-    	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-    	HttpEntity<Media> requestEntity = new HttpEntity<>(media, headers);
 
-        return rest.postForObject(MediaEndpoints.UPLOAD + "_impl", requestEntity, Media.class);
+        MultipartFile multipartFile;
+        try {
+            multipartFile = new MockMultipartFile(media.getId(), null,media.getContentType(), media.getStream());
+        } catch (IOException e) {
+            throw new MediaException(e);
+        }
+
+        rest.postForObject(MediaEndpoints.UPLOAD + "_impl", multipartFile, MultipartFile.class);
+        return media;
     }
+
+
 
 
     @Override
