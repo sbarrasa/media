@@ -76,7 +76,7 @@ public class MediaRestClient implements MediaTemplate {
     	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
     	HttpEntity<Media> requestEntity = new HttpEntity<>(media, headers);
 
-        rest.postForObject(MediaEndpoints.UPLOAD + "_impl", requestEntity, Media.class);
+        media = rest.postForObject(MediaEndpoints.UPLOAD + "_impl", requestEntity, Media.class);
         return media;
     }
 
