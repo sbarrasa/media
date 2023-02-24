@@ -100,10 +100,8 @@ public interface MediaTemplate {
 
     default public URL getValidURL(String id) throws MediaException {
         URL url = getURL(id);
-        if (validateURL(url))
-            return url;
-        else
-            return null;
+        validateURL(url);
+        return url;
     }
 
     public default String getChecksum(Media media) {
