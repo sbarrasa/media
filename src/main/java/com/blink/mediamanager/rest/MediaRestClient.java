@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -68,60 +70,17 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
-        MultipartFile file;
-//        try {
-            file = new MultipartFile() {
+    	File file = new File("*********");
 
-				@Override
-				public String getName() {
-					return media.getId();
-				}
-
-				@Override
-				public String getOriginalFilename() {
-					return media.getId();
-				}
-
-				@Override
-				public String getContentType() {
-					return media.getContentType();
-				}
-
-				@Override
-				public boolean isEmpty() {
-					return false;
-				}
-
-				@Override
-				public long getSize() {
-					return 0;
-				}
-
-				@Override
-				public byte[] getBytes() throws IOException {
-					return null;
-				}
-
-				@Override
-				public InputStream getInputStream() throws IOException {
-					return media.getStream();
-				}
-
-				@Override
-				public void transferTo(File dest) throws IOException, IllegalStateException {
-					
-				}
-            };
-            	
-/*            		new MockMultipartFile(media.getId(), media.getId(), media.getContentType(), media.getStream());
-        } catch (IOException e) {
-            throw new MediaException(e);
-        } */
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-    	HttpEntity<MultipartFile> requestEntity  = new HttpEntity<>(file, headers);
-        
+    	MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+    	form.add("files", file);
+
+    	HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(form, headers);
+
+      
         return rest.postForObject(MediaEndpoints.UPLOAD, requestEntity, Media.class);
     }
 
