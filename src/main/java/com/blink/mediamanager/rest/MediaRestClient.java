@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.mock.web.MockMultipartFile;
@@ -74,12 +75,14 @@ public class MediaRestClient implements MediaTemplate {
 
         MultipartFile multipartFile;
         try {
-            multipartFile = new MockMultipartFile( media.getId(), media.getId(), media.getContentType(), media.getStream());
+            multipartFile = new MockMultipartFile(  media.getId(), media.getId(), media.getContentType(), media.getStream());
         } catch (IOException e) {
             throw new MediaException(e);
         }
-
-        return rest.postForObject(MediaEndpoints.UPLOAD, multipartFile, Media.class);
+        
+        HttpEntity<MultipartFile> file = new HttpEntity<>(multipartFile);
+        
+        return rest.postForObject(MediaEndpoints.UPLOAD, file, Media.class);
     }
 
 
