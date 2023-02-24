@@ -79,8 +79,7 @@ public class MediaRestClient implements MediaTemplate {
             throw new MediaException(e);
         }
 
-        rest.postForObject(MediaEndpoints.UPLOAD + "_impl", multipartFile, MultipartFile.class);
-        return media;
+        return rest.postForObject(MediaEndpoints.UPLOAD, multipartFile, Media.class);
     }
 
 
