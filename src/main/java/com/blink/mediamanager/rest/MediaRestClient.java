@@ -70,13 +70,12 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
-    	File file = new File("*********");
 
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
+ 
     	MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
-    	form.add("files", file);
+    	form.add("files", media.getStream());
 
     	HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(form, headers);
 
