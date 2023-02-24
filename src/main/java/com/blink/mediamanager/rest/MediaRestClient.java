@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -70,15 +71,14 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
-
+    	
     	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
- 
+    	headers.setContentType(MediaType.parseMediaType(media.getContentType()));
+  
     	MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
-    	form.add("files", media.getStream());
+    	form.add("file", media.getStream());
 
     	HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(form, headers);
-
       
         return rest.postForObject(MediaEndpoints.UPLOAD, requestEntity, Media.class);
     }
