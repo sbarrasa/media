@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -73,19 +72,17 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public Media uploadImpl(Media media) throws MediaException {
-        MultipartFile multipartFile;
+/*        MultipartFile multipartFile;
         try {
             multipartFile = new MockMultipartFile(  media.getId(), media.getId(), media.getContentType(), media.getStream());
         } catch (IOException e) {
             throw new MediaException(e);
         } 
-
+*/
     	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    	headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
-    	MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-    	body.add("file", multipartFile);
-    	HttpEntity<MultiValueMap<String, Object>> requestEntity  = new HttpEntity<>(body, headers);
+    	HttpEntity<InputStream> requestEntity  = new HttpEntity<>(media.getStream(), headers);
         
         return rest.postForObject(MediaEndpoints.UPLOAD, requestEntity, Media.class);
     }
