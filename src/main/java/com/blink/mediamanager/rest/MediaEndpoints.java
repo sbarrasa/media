@@ -9,5 +9,6 @@ public class MediaEndpoints {
 	public static final String DELETE = "/delete";
 	public static final String URL = "/url";
 	public static final String CHECKSUM = "/checksum";
+	public static final String VALIDATE_URL = "/validate_url";
 
 }

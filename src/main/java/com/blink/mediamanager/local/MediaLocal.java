@@ -66,9 +66,10 @@ public class MediaLocal implements MediaTemplate {
     }
 
     @Override
-    public boolean validateURL(URL url) throws MediaException {
+    public void validateURL(URL url) throws MediaException {
         //check if file exists in local path
-        return Files.exists(getPath(url.getPath().substring(1)));
+        if(!Files.exists(getPath(url.getPath().substring(1))))
+        	throw new MediaException(String.format("File not found %s", url));
     }
 
     @Override

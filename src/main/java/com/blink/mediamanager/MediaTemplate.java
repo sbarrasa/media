@@ -96,7 +96,7 @@ public interface MediaTemplate {
 
     public URL getURL(String id);
 
-    public boolean validateURL(URL url) throws MediaException;
+    public void validateURL(URL url) throws MediaException;
 
     default public URL getValidURL(String id) throws MediaException {
         URL url = getURL(id);

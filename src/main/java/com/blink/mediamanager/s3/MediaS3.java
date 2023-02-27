@@ -62,9 +62,10 @@ public class MediaS3 implements MediaTemplate {
     }
 
     @Override
-    public boolean validateURL(URL url) throws MediaException {
+    public void validateURL(URL url) throws MediaException {
         S3Object s3Object = getAmazonS3().getObject(bucket, url.getPath().substring(1));
-        return s3Object != null;
+        if(s3Object == null)
+        	throw new MediaException(String.format("Invalid URL: %s", url));
     }
 
     @Override
