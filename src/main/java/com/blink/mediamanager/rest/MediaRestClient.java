@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -77,12 +78,19 @@ public class MediaRestClient implements MediaTemplate {
             file = new MockMultipartFile(media.getId(), media.getId(), media.getContentType(), media.getStream());
         } catch (IOException e) {
             throw new MediaException(e);
-        } 
+        }
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-    	HttpEntity<Object> requestEntity  = new HttpEntity<>(file, headers);
-        rest.postForObject(MediaEndpoints.UPLOAD, requestEntity, MultipartFile.class);
+        MultiValueMap<String, Object> body
+                = new LinkedMultiValueMap<>();
+
+        body.add("file", file.getResource());
+
+    	HttpEntity<Object> requestEntity  = new HttpEntity<>(body, headers);
+        ResponseEntity<String> response = rest.postForEntity(MediaEndpoints.UPLOAD, requestEntity, String.class);
+        media.setId(response.getBody());
+
         return media;
     }
 
