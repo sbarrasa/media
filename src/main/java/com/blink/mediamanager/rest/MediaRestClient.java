@@ -88,8 +88,7 @@ public class MediaRestClient implements MediaTemplate {
 
     	HttpEntity<Object> requestEntity  = new HttpEntity<>(body, headers);
         ResponseEntity<String> response = rest.postForEntity(MediaEndpoints.UPLOAD, requestEntity, String.class);
-        media.setId(response.getBody());
-
+     
         return media;
     }
 
