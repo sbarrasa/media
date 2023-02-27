@@ -89,9 +89,6 @@ public class ImageResizer {
 		build(mediaSource.getId(), principalWidth);
 		build(buildId(ID_THUMBNAIL), thumbnailWidth);
 		
-		if(widths == null)
-			return this;
-		
 		widths.forEach(width -> { 
 			build(buildId(ID_PATTERN+width), width);		   
         });
