@@ -80,7 +80,7 @@ public class MediaRestClient implements MediaTemplate {
             throw new MediaException(e);
         }
     	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    	headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
