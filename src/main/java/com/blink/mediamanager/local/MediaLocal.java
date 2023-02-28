@@ -17,14 +17,14 @@ import com.blink.mediamanager.MediaError;
 import com.blink.mediamanager.MediaException;
 
 public class MediaLocal implements MediaTemplate {
-    private static final String CONTENT_TYPE_DEFAULT = "image/png";
-    private String localProtocol = "file";
-    private String localHost = "localhost";
+    private static final String CONTENT_TYPE_DEFAULT = "image/jpg";
+    private String protocol = "http";
+    private String host = "localhost";
     private String pathStr;
 
 
     public MediaLocal() {
-        setPath("./");
+        setPath("/");
     }
 
 
@@ -59,7 +59,7 @@ public class MediaLocal implements MediaTemplate {
     @Override
     public URL getURL(String id) {
         try {
-            return new URL(localProtocol, localHost, getPath(id).toString());
+            return new URL(protocol, host, getPath(id).toString());
         } catch (MalformedURLException e) {
             throw new MediaError(e);
         }
