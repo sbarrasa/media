@@ -20,6 +20,7 @@ public class MediaLocal implements MediaTemplate {
     private static final String CONTENT_TYPE_DEFAULT = "image/jpg";
     private String protocol = "http";
     private String host = "localhost";
+    private Integer port = null;
     private String pathStr;
 
 
@@ -59,7 +60,7 @@ public class MediaLocal implements MediaTemplate {
     @Override
     public URL getURL(String id) {
         try {
-            return new URL(protocol, host, getPath(id).toString());
+            return new URL(protocol, host, port, getPath(id).toString());
         } catch (MalformedURLException e) {
             throw new MediaError(e);
         }
@@ -135,6 +136,18 @@ public class MediaLocal implements MediaTemplate {
 	public MediaLocal setHost(String host) {
 		this.host = host;
 		return this;
+	}
+
+
+	public Integer getPort() {
+		return port;
+	}
+
+
+	public MediaLocal setPort(Integer port) {
+		this.port = port;
+		return this;
+
 	}
 
 }
