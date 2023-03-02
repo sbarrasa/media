@@ -61,7 +61,11 @@ public class MediaRestClient implements MediaTemplate {
 
     @Override
     public void validateURL(URL url) throws MediaException {
-        rest.postForObject(MediaEndpoints.VALIDATE_URL, url, null);
+        try{
+        	rest.postForObject(MediaEndpoints.VALIDATE_URL, url, null);
+        }catch(Error e) {
+        	throw new MediaException(e);
+        }
     }
 
 
