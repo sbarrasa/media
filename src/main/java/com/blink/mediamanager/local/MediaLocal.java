@@ -115,4 +115,15 @@ public class MediaLocal implements MediaTemplate {
         return Path.of(pathStr, id);
     }
 
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+
+	public MediaLocal setProtocol(String protocol) {
+		this.protocol = protocol;
+		return this;
+	}
+
 }
