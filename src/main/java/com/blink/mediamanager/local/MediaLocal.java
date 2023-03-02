@@ -132,8 +132,9 @@ public class MediaLocal implements MediaTemplate {
 	}
 
 
-	public void setHost(String host) {
+	public MediaLocal setHost(String host) {
 		this.host = host;
+		return this;
 	}
 
 }
